@@ -25,7 +25,7 @@ const CHAVE_MOTORISTA = 'INTRA-MOTORISTA-2026';
 // SERVIR OS ARQUIVOS DO SITE
 // ==========================================
 
-app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
