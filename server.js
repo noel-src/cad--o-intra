@@ -27,6 +27,10 @@ const CHAVE_MOTORISTA = 'INTRA-MOTORISTA-2026';
 
 app.use(express.static(__dirname));
 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 
 // ==========================================
 // LOCALIZAÇÕES COMPARTILHADAS
