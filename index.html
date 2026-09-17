@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cadê o Intra? | UFC</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            🚌
+        </div>
+
+        <div>
+            <h1>Cadê o Intra?</h1>
+            <span>Transporte intercampi • UFC</span>
+        </div>
+
+    </div>
+
+    <div class="header-status">
+        <span class="status-dot"></span>
+        Sistema online
+    </div>
+
+</header>
+
+
+<main class="container">
+
+    <!-- COMPARTILHAMENTO -->
+
+    <section class="share-card">
+
+        <div>
+
+            <span class="share-label">
+                Está no Intra?
+            </span>
+
+            <h2>
+                Ajude outros alunos
+            </h2>
+
+            <p>
+                Compartilhe sua localização para mostrar
+                onde o Intra está agora.
+            </p>
+
+        </div>
+
+        <div class="share-buttons">
+
+            <button id="iniciar-localizacao">
+                📍 Compartilhar localização
+            </button>
+
+            <button id="parar-localizacao" class="stop-button">
+                Parar compartilhamento
+            </button>
+
+        </div>
+
+
+        <!-- AUTENTICAÇÃO DO MOTORISTA -->
+
+        <div id="area-motorista" style="display: none;">
+
+            <p>
+                🔐 Digite a chave do motorista:
+            </p>
+
+            <input
+                type="password"
+                id="chave-motorista"
+                placeholder="Chave do motorista"
+            >
+
+            <button id="confirmar-motorista">
+                Ativar
+            </button>
+
+            <p id="mensagem-motorista"></p>
+
+        </div>
+
+
+        <p id="gps-status" class="gps-status">
+            Localização não compartilhada
+        </p>
+
+    </section>
+
+
+    <!-- STATUS DO ÔNIBUS -->
+
+    <section class="bus-card">
+
+        <div class="bus-info">
+
+            <div class="bus-icon">
+                🚌
+            </div>
+
+            <div>
+
+                <span class="label">
+                    Ônibus
+                </span>
+
+                <h2>
+                    Intra
+                </h2>
+
+                <div
+                    class="bus-status status-sem-localizacao"
+                    id="status-container"
+                >
+
+                    <span
+                        class="status-indicator indicador-offline"
+                        id="status-indicator"
+                    ></span>
+
+                    <span id="status-onibus">
+                        Intra sem localização
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="update-info">
+
+            <span>
+                Última atualização
+            </span>
+
+            <strong id="atualizacao">
+                Nenhuma localização compartilhada
+            </strong>
+
+        </div>
+
+    </section>
+
+
+    <!-- MAPA -->
+
+    <section class="map-container">
+
+        <div class="map-header">
+
+            <div>
+
+                <h2>
+                    Localização do Intra
+                </h2>
+
+                <p>
+                    Acompanhe o ônibus em tempo real
+                </p>
+
+            </div>
+
+            <button id="centralizar">
+                📍 Centralizar
+            </button>
+
+        </div>
+
+        <div id="map"></div>
+
+    </section>
+
+
+    <!-- INFORMAÇÕES -->
+
+    <section class="info-grid">
+
+        <div class="info-card">
+
+            <div class="info-card-icon">
+                📍
+            </div>
+
+            <div>
+
+                <span>
+                    Status da localização
+                </span>
+
+                <strong id="status-localizacao">
+                    Offline
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="info-card">
+
+            <div class="info-card-icon">
+                🚌
+            </div>
+
+            <div>
+
+                <span>
+                    Veículo monitorado
+                </span>
+
+                <strong>
+                    Intra UFC
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="info-card">
+
+            <div class="info-card-icon">
+                🗺️
+            </div>
+
+            <div>
+
+                <span>
+                    Rota
+                </span>
+
+                <strong>
+                    Em breve
+                </strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- NAVEGAÇÃO -->
+
+<nav class="bottom-nav">
+
+    <button
+        class="nav-button ativo"
+        onclick="window.location.href='index.html'"
+    >
+
+        <svg
+            class="nav-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        >
+            <path d="M3 10.5L12 3l9 7.5"/>
+            <path d="M5.5 9.5V21h13V9.5"/>
+            <path d="M9.5 21v-6h5v6"/>
+        </svg>
+
+        <span>Início</span>
+
+    </button>
+
+
+    <button
+        class="nav-button"
+        onclick="window.location.href='rota.html'"
+    >
+
+        <svg
+            class="nav-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        >
+            <path d="M9 18l-6 3V6l6-3 6 3 6-3v15l-6 3-6-3z"/>
+            <path d="M9 3v15"/>
+            <path d="M15 6v15"/>
+        </svg>
+
+        <span>Rota</span>
+
+    </button>
+
+
+    <button
+        class="nav-button"
+        onclick="window.location.href='avisos.html'"
+    >
+
+        <svg
+            class="nav-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        >
+            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
+            <path d="M10 21h4"/>
+        </svg>
+
+        <span>Avisos</span>
+
+    </button>
+
+</nav>
+
+
+<footer>
+
+    <p>
+        Cadê o Intra? • Projeto acadêmico
+    </p>
+
+    <span>
+        Universidade Federal do Ceará
+    </span>
+
+</footer>
+
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
