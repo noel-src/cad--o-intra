@@ -136,14 +136,6 @@ paradas.forEach(function (parada) {
 
 let marcadorOnibus = null;
 
-let marcadorMinhaLocalizacao = null;
-
-let localizacoesRecebidas = [];
-
-let watchID = null;
-
-let motoristaAutorizado = false;
-
 
 // ==========================================
 // SOCKET.IO
@@ -153,118 +145,7 @@ const socket = io();
 
 
 // ==========================================
-// CALCULAR DISTÂNCIA ENTRE DUAS COORDENADAS
-// ==========================================
-
-function calcularDistanciaMetros(
-    latitude1,
-    longitude1,
-    latitude2,
-    longitude2
-) {
-
-    const R = 6371000;
-
-    const lat1 =
-        latitude1 * Math.PI / 180;
-
-    const lat2 =
-        latitude2 * Math.PI / 180;
-
-    const diferencaLatitude =
-        (latitude2 - latitude1) *
-        Math.PI / 180;
-
-    const diferencaLongitude =
-        (longitude2 - longitude1) *
-        Math.PI / 180;
-
-    const a =
-        Math.sin(diferencaLatitude / 2) *
-        Math.sin(diferencaLatitude / 2) +
-
-        Math.cos(lat1) *
-        Math.cos(lat2) *
-
-        Math.sin(diferencaLongitude / 2) *
-        Math.sin(diferencaLongitude / 2);
-
-    const c =
-        2 *
-        Math.atan2(
-            Math.sqrt(a),
-            Math.sqrt(1 - a)
-        );
-
-    return R * c;
-}
-
-
-// ==========================================
-// ENCONTRAR LOCALIZAÇÃO PRINCIPAL
-// ==========================================
-
-function encontrarLocalizacaoPrincipal(localizacoes) {
-
-    if (localizacoes.length === 0) {
-        return null;
-    }
-
-
-    const referencia = localizacoes[0];
-
-
-    console.log(
-        'LOCALIZAÇÃO DE REFERÊNCIA:',
-        referencia.latitude,
-        referencia.longitude
-    );
-
-
-    for (
-        let i = 1;
-        i < localizacoes.length;
-        i++
-    ) {
-
-        const localizacao =
-            localizacoes[i];
-
-
-        const distancia =
-            calcularDistanciaMetros(
-                referencia.latitude,
-                referencia.longitude,
-                localizacao.latitude,
-                localizacao.longitude
-            );
-
-
-        console.log(
-            'Distância da referência:',
-            distancia.toFixed(2),
-            'metros'
-        );
-
-
-        if (distancia > 4) {
-
-            console.log(
-                'LOCALIZAÇÕES FORA DO LIMITE DE 4 METROS'
-            );
-
-            return null;
-        }
-
-    }
-
-
-    return referencia;
-}
-
-
-// ==========================================
-// RECEBER LOCALIZAÇÕES DO SERVIDOR
+// RECEBER LOCALIZAÇÃO DO INTRA
 // ==========================================
 
 socket.on(
@@ -277,15 +158,14 @@ socket.on(
         );
 
 
-        localizacoesRecebidas =
-            localizacoes;
-
-
         // ==================================
         // NENHUMA LOCALIZAÇÃO
         // ==================================
 
-        if (localizacoes.length === 0) {
+        if (
+            !Array.isArray(localizacoes) ||
+            localizacoes.length === 0
+        ) {
 
             if (marcadorOnibus) {
 
@@ -296,7 +176,6 @@ socket.on(
                 marcadorOnibus = null;
             }
 
-
             atualizarStatusOffline();
 
             return;
@@ -304,35 +183,26 @@ socket.on(
 
 
         // ==================================
-        // ENCONTRAR LOCALIZAÇÃO PRINCIPAL
+        // PEGAR LOCALIZAÇÃO DO MOTORISTA
         // ==================================
 
-        const localizacaoPrincipal =
-            encontrarLocalizacaoPrincipal(
-                localizacoes
-            );
+        const localizacao =
+            localizacoes[0];
 
 
         // ==================================
-        // LOCALIZAÇÕES NÃO CONCORDAM
+        // VALIDAR LOCALIZAÇÃO
         // ==================================
 
-        if (localizacaoPrincipal === null) {
+        if (
+            !localizacao ||
+            typeof localizacao.latitude !== 'number' ||
+            typeof localizacao.longitude !== 'number'
+        ) {
 
             console.log(
-                'Nenhuma localização principal válida.'
+                'Localização recebida é inválida.'
             );
-
-
-            if (marcadorOnibus) {
-
-                mapa.removeLayer(
-                    marcadorOnibus
-                );
-
-                marcadorOnibus = null;
-            }
-
 
             atualizarStatusOffline();
 
@@ -340,16 +210,9 @@ socket.on(
         }
 
 
-        // ==================================
-        // POSIÇÃO DO INTRA
-        // ==================================
-
         const posicao = [
-
-            localizacaoPrincipal.latitude,
-
-            localizacaoPrincipal.longitude
-
+            localizacao.latitude,
+            localizacao.longitude
         ];
 
 
@@ -360,10 +223,12 @@ socket.on(
 
 
         // ==================================
-        // CRIAR MARCADOR
+        // CRIAR MARCADOR DO ÔNIBUS
         // ==================================
 
-        if (marcadorOnibus === null) {
+        if (
+            marcadorOnibus === null
+        ) {
 
             marcadorOnibus =
                 L.marker(
@@ -390,6 +255,10 @@ socket.on(
         }
 
 
+        // ==================================
+        // ATUALIZAR STATUS
+        // ==================================
+
         atualizarStatusOnline();
 
     }
@@ -397,70 +266,7 @@ socket.on(
 
 
 // ==========================================
-// RECEBER RESULTADO DA AUTENTICAÇÃO
-// ==========================================
-
-socket.on(
-    'autenticacao-motorista',
-    function (resultado) {
-
-        const mensagem =
-            document.getElementById(
-                'mensagem-motorista'
-            );
-
-
-        if (
-            resultado.sucesso
-        ) {
-
-            motoristaAutorizado = true;
-
-
-            mensagem.textContent =
-                '✅ Motorista autorizado.';
-
-
-            mensagem.style.color =
-                'green';
-
-
-            // Esconder área da chave
-
-            document
-                .getElementById(
-                    'area-motorista'
-                )
-                .style.display =
-                'none';
-
-
-            // Agora começar o GPS
-
-            iniciarGPS();
-
-        }
-
-        else {
-
-            motoristaAutorizado = false;
-
-
-            mensagem.textContent =
-                '❌ ' + resultado.mensagem;
-
-
-            mensagem.style.color =
-                'red';
-
-        }
-
-    }
-);
-
-
-// ==========================================
-// BOTÃO CENTRALIZAR
+// BOTÃO CENTRALIZAR NO ÔNIBUS
 // ==========================================
 
 document
@@ -470,411 +276,55 @@ document
         function () {
 
             console.log(
-                'Solicitando localização do dispositivo...'
+                'Centralizando no Intra...'
             );
 
 
-            if (!navigator.geolocation) {
+            // ==================================
+            // VERIFICAR SE O ÔNIBUS ESTÁ NO MAPA
+            // ==================================
+
+            if (
+                marcadorOnibus === null
+            ) {
 
                 alert(
-                    'Seu dispositivo não suporta localização.'
+                    'O Intra ainda não possui localização.'
                 );
 
                 return;
             }
 
 
-            navigator.geolocation.getCurrentPosition(
+            // ==================================
+            // PEGAR POSIÇÃO ATUAL DO ÔNIBUS
+            // ==================================
 
-                function (posicao) {
-
-                    const latitude =
-                        posicao.coords.latitude;
-
-                    const longitude =
-                        posicao.coords.longitude;
+            const posicao =
+                marcadorOnibus.getLatLng();
 
 
-                    console.log(
-                        'MINHA LOCALIZAÇÃO:',
-                        latitude,
-                        longitude
-                    );
+            console.log(
+                'POSIÇÃO DO INTRA:',
+                posicao.lat,
+                posicao.lng
+            );
 
 
-                    console.log(
-                        'PRECISÃO DO GPS:',
-                        posicao.coords.accuracy,
-                        'metros'
-                    );
+            // ==================================
+            // CENTRALIZAR MAPA
+            // ==================================
 
-
-                    mapa.setView(
-                        [
-                            latitude,
-                            longitude
-                        ],
-                        17
-                    );
-
-
-                    if (
-                        marcadorMinhaLocalizacao === null
-                    ) {
-
-                        marcadorMinhaLocalizacao =
-                            L.circleMarker(
-                                [
-                                    latitude,
-                                    longitude
-                                ],
-                                {
-                                    radius: 8
-                                }
-                            )
-                            .addTo(mapa);
-
-                    }
-
-                    else {
-
-                        marcadorMinhaLocalizacao.setLatLng(
-                            [
-                                latitude,
-                                longitude
-                            ]
-                        );
-
-                    }
-
-                },
-
-                function (erro) {
-
-                    console.error(
-                        'ERRO AO PEGAR LOCALIZAÇÃO:',
-                        erro
-                    );
-
-
-                    alert(
-                        'Não foi possível obter sua localização.'
-                    );
-
-                },
-
+            mapa.setView(
+                [
+                    posicao.lat,
+                    posicao.lng
+                ],
+                17,
                 {
-                    enableHighAccuracy: true,
-                    maximumAge: 0,
-                    timeout: 15000
+                    animate: true
                 }
-
             );
-
-        }
-    );
-
-
-// ==========================================
-// BOTÃO COMPARTILHAR LOCALIZAÇÃO
-// ==========================================
-
-document
-    .getElementById('iniciar-localizacao')
-    .addEventListener(
-        'click',
-        function () {
-
-            // Se já estiver autorizado,
-            // começa o GPS diretamente.
-
-            if (
-                motoristaAutorizado
-            ) {
-
-                iniciarGPS();
-
-                return;
-
-            }
-
-
-            // Mostrar área para colocar a chave
-
-            document
-                .getElementById(
-                    'area-motorista'
-                )
-                .style.display =
-                'block';
-
-
-            document
-                .getElementById(
-                    'chave-motorista'
-                )
-                .focus();
-
-        }
-    );
-
-
-// ==========================================
-// CONFIRMAR CHAVE DO MOTORISTA
-// ==========================================
-
-document
-    .getElementById('confirmar-motorista')
-    .addEventListener(
-        'click',
-        function () {
-
-            const campo =
-                document.getElementById(
-                    'chave-motorista'
-                );
-
-
-            const chave =
-                campo.value;
-
-
-            if (
-                chave.trim() === ''
-            ) {
-
-                document
-                    .getElementById(
-                        'mensagem-motorista'
-                    )
-                    .textContent =
-                    'Digite a chave do motorista.';
-
-                return;
-
-            }
-
-
-            document
-                .getElementById(
-                    'mensagem-motorista'
-                )
-                .textContent =
-                'Verificando...';
-
-
-            // ==================================
-            // ENVIAR CHAVE AO SERVIDOR
-            // ==================================
-
-            socket.emit(
-                'autenticar-motorista',
-                chave
-            );
-
-        }
-    );
-
-
-// ==========================================
-// PERMITIR ENTER NO CAMPO DA CHAVE
-// ==========================================
-
-document
-    .getElementById('chave-motorista')
-    .addEventListener(
-        'keydown',
-        function (evento) {
-
-            if (
-                evento.key === 'Enter'
-            ) {
-
-                document
-                    .getElementById(
-                        'confirmar-motorista'
-                    )
-                    .click();
-
-            }
-
-        }
-    );
-
-
-// ==========================================
-// INICIAR GPS
-// ==========================================
-
-function iniciarGPS() {
-
-    if (
-        !motoristaAutorizado
-    ) {
-
-        console.log(
-            'GPS bloqueado: motorista não autorizado.'
-        );
-
-        return;
-
-    }
-
-
-    if (!navigator.geolocation) {
-
-        alert(
-            'Seu dispositivo não suporta localização.'
-        );
-
-        return;
-
-    }
-
-
-    // Evitar dois watchPosition
-
-    if (
-        watchID !== null
-    ) {
-
-        console.log(
-            'Compartilhamento já está ativo.'
-        );
-
-        return;
-
-    }
-
-
-    document
-        .getElementById(
-            'gps-status'
-        )
-        .textContent =
-        'Obtendo localização...';
-
-
-    // ==================================
-    // ACOMPANHAR LOCALIZAÇÃO
-    // ==================================
-
-    watchID =
-        navigator.geolocation.watchPosition(
-
-            function (posicao) {
-
-                const latitude =
-                    posicao.coords.latitude;
-
-                const longitude =
-                    posicao.coords.longitude;
-
-
-                console.log(
-                    'LOCALIZAÇÃO COMPARTILHADA:',
-                    latitude,
-                    longitude
-                );
-
-
-                console.log(
-                    'PRECISÃO DO GPS:',
-                    posicao.coords.accuracy,
-                    'metros'
-                );
-
-
-                // ==================================
-                // ENVIAR AO SERVIDOR
-                // ==================================
-
-                socket.emit(
-                    'atualizar-localizacao',
-                    {
-                        latitude:
-                            latitude,
-
-                        longitude:
-                            longitude
-                    }
-                );
-
-
-                document
-                    .getElementById(
-                        'gps-status'
-                    )
-                    .textContent =
-                    'Localização compartilhada';
-
-            },
-
-            function (erro) {
-
-                console.error(
-                    'ERRO NO GPS:',
-                    erro
-                );
-
-
-                document
-                    .getElementById(
-                        'gps-status'
-                    )
-                    .textContent =
-                    'Erro ao obter localização';
-
-            },
-
-            {
-                enableHighAccuracy: true,
-
-                maximumAge: 0,
-
-                timeout: 15000
-
-            }
-
-        );
-
-}
-
-
-// ==========================================
-// PARAR COMPARTILHAMENTO
-// ==========================================
-
-document
-    .getElementById('parar-localizacao')
-    .addEventListener(
-        'click',
-        function () {
-
-            if (
-                watchID !== null
-            ) {
-
-                navigator.geolocation.clearWatch(
-                    watchID
-                );
-
-                watchID = null;
-
-            }
-
-
-            socket.emit(
-                'parar-localizacao'
-            );
-
-
-            document
-                .getElementById(
-                    'gps-status'
-                )
-                .textContent =
-                'Localização não compartilhada';
 
         }
     );
@@ -902,22 +352,42 @@ function atualizarStatusOnline() {
         );
 
 
-    status.className =
-        'status-localizado';
+    if (status) {
 
-    indicador.className =
-        'indicador-online';
+        status.className =
+            'status-localizado';
 
-    texto.textContent =
-        'Intra localizado';
+    }
 
 
-    document
-        .getElementById(
+    if (indicador) {
+
+        indicador.className =
+            'indicador-online';
+
+    }
+
+
+    if (texto) {
+
+        texto.textContent =
+            'Intra localizado';
+
+    }
+
+
+    const atualizacao =
+        document.getElementById(
             'atualizacao'
-        )
-        .textContent =
-        'Localização atualizada agora';
+        );
+
+
+    if (atualizacao) {
+
+        atualizacao.textContent =
+            'Localização atualizada agora';
+
+    }
 
 
     const statusLocalizacao =
@@ -958,22 +428,42 @@ function atualizarStatusOffline() {
         );
 
 
-    status.className =
-        'status-sem-localizacao';
+    if (status) {
 
-    indicador.className =
-        'indicador-offline';
+        status.className =
+            'status-sem-localizacao';
 
-    texto.textContent =
-        'Intra sem localização';
+    }
 
 
-    document
-        .getElementById(
+    if (indicador) {
+
+        indicador.className =
+            'indicador-offline';
+
+    }
+
+
+    if (texto) {
+
+        texto.textContent =
+            'Intra sem localização';
+
+    }
+
+
+    const atualizacao =
+        document.getElementById(
             'atualizacao'
-        )
-        .textContent =
-        'Nenhuma localização compartilhada';
+        );
+
+
+    if (atualizacao) {
+
+        atualizacao.textContent =
+            'Nenhuma localização compartilhada';
+
+    }
 
 
     const statusLocalizacao =

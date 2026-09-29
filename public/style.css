@@ -1,6 +1,12 @@
-/* ========================================== */
-/* CONFIGURAÇÕES GERAIS */
-/* ========================================== */
+/* =========================================================
+   CADÊ O INTRA?
+   ESTILO PRINCIPAL
+========================================================= */
+
+
+/* =========================================================
+   RESET
+========================================================= */
 
 * {
     margin: 0;
@@ -8,297 +14,250 @@
     box-sizing: border-box;
 }
 
+html {
+    scrollbar-gutter: stable;
+}
+
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background: #f4f7f5;
-    color: #1f2933;
+
+    background: #f5f8f7;
+
+    color: #14213d;
+
     padding-bottom: 90px;
+
+    min-height: 100vh;
 }
 
 
-/* ========================================== */
-/* CABEÇALHO */
-/* ========================================== */
+/* =========================================================
+   CABEÇALHO
+========================================================= */
 
 .header {
-    background: #087f3e;
-    color: white;
-    padding: 18px 6%;
+    width: 100%;
+    height: 92px;
+
+    background: #ffffff;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
 
+    border-bottom: 1px solid #e8edf3;
+
     box-shadow:
-        0 2px 10px rgba(0, 0, 0, 0.08);
+        0 2px 10px rgba(15, 23, 42, 0.04);
+
+    overflow: hidden;
 }
 
 .logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.logo-icon {
-    width: 48px;
-    height: 48px;
-
-    background: rgba(255, 255, 255, 0.15);
-
-    border-radius: 12px;
+    height: 82px;
 
     display: flex;
     align-items: center;
-    justify-content: center;
 
-    font-size: 26px;
+    margin-left: 18px;
+
+    flex-shrink: 0;
 }
 
-.logo h1 {
-    font-size: 23px;
-    margin-bottom: 3px;
-}
+.logo img {
+    display: block;
 
-.logo span {
-    font-size: 13px;
-    opacity: 0.85;
+    width: 350px;
+    height: auto;
+
+    max-height: 88px;
+
+    object-fit: contain;
 }
 
 .header-status {
     display: flex;
     align-items: center;
+
     gap: 8px;
 
-    font-size: 14px;
+    margin-right: 24px;
+
+    color: #64748b;
+
+    font-size: 12px;
+
+    white-space: nowrap;
 }
 
 .status-dot {
-    width: 9px;
-    height: 9px;
-
-    background: #6ee7a0;
+    width: 8px;
+    height: 8px;
 
     border-radius: 50%;
+
+    background: #22c55e;
+
+    display: inline-block;
 }
 
 
-/* ========================================== */
-/* CONTAINER */
-/* ========================================== */
+/* =========================================================
+   CONTAINER
+========================================================= */
 
 .container {
-    width: 90%;
-    max-width: 1100px;
+    width: 92%;
+    max-width: 1050px;
 
-    margin: 30px auto;
+    margin: 28px auto 0;
 }
 
 
-/* ========================================== */
-/* COMPARTILHAMENTO */
-/* ========================================== */
-
-.share-card {
-    background: white;
-
-    border-radius: 18px;
-
-    padding: 25px;
-
-    margin-bottom: 20px;
-
-    box-shadow:
-        0 4px 18px rgba(0, 0, 0, 0.06);
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    gap: 25px;
-}
-
-.share-label {
-    color: #087f3e;
-
-    font-size: 13px;
-    font-weight: bold;
-
-    text-transform: uppercase;
-}
-
-.share-card h2 {
-    margin-top: 6px;
-    margin-bottom: 8px;
-
-    font-size: 22px;
-}
-
-.share-card p {
-    color: #667085;
-    line-height: 1.5;
-}
-
-.share-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-
-    min-width: 230px;
-}
-
-.share-buttons button {
-    border: none;
-
-    padding: 13px 18px;
-
-    border-radius: 10px;
-
-    font-size: 14px;
-    font-weight: bold;
-
-    cursor: pointer;
-
-    transition: 0.2s;
-}
-
-#iniciar-localizacao {
-    background: #087f3e;
-    color: white;
-}
-
-#iniciar-localizacao:hover {
-    background: #066b34;
-}
-
-.stop-button {
-    background: #eef2f0;
-    color: #475467;
-}
-
-.stop-button:hover {
-    background: #e2e7e4;
-}
-
-.gps-status {
-    font-size: 13px;
-    color: #667085;
-}
-
-
-/* ========================================== */
-/* CARD DO ÔNIBUS */
-/* ========================================== */
+/* =========================================================
+   CARD DO ÔNIBUS
+========================================================= */
 
 .bus-card {
-    background: white;
+    width: 100%;
 
-    border-radius: 18px;
+    background: #ffffff;
 
-    padding: 22px 25px;
+    border: 1px solid #edf0f4;
 
-    margin-bottom: 20px;
+    border-radius: 22px;
+
+    padding: 24px;
+
+    margin-bottom: 18px;
 
     box-shadow:
-        0 4px 18px rgba(0, 0, 0, 0.06);
+        0 4px 18px rgba(15, 23, 42, 0.045);
 
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
 
     gap: 20px;
 }
 
+
+/* =========================================================
+   INFORMAÇÕES DO ÔNIBUS
+========================================================= */
+
 .bus-info {
     display: flex;
     align-items: center;
+
     gap: 15px;
 }
 
 .bus-icon {
-    width: 58px;
-    height: 58px;
+    width: 56px;
+    height: 56px;
 
-    background: #e9f7ef;
+    flex-shrink: 0;
 
-    border-radius: 15px;
+    border-radius: 16px;
+
+    background: #eef7ff;
+
+    color: #1683ff;
 
     display: flex;
     align-items: center;
     justify-content: center;
+}
 
-    font-size: 30px;
+.bus-icon svg {
+    width: 31px;
+    height: 31px;
+}
+
+.bus-details {
+    min-width: 0;
 }
 
 .label {
     display: block;
 
-    color: #667085;
+    color: #94a3b8;
 
     font-size: 12px;
 
-    margin-bottom: 3px;
+    margin-bottom: 2px;
 }
 
-.bus-info h2 {
-    font-size: 21px;
+.bus-info h1 {
+    color: #14213d;
+
+    font-size: 25px;
+
+    line-height: 1.1;
+
+    margin: 0;
 }
-
-
-/* ========================================== */
-/* STATUS DO INTRA */
-/* ========================================== */
 
 .bus-status {
     display: flex;
     align-items: center;
+
     gap: 7px;
 
-    margin-top: 6px;
+    margin-top: 5px;
 
     font-size: 13px;
-    font-weight: bold;
-}
 
-.status-localizado {
-    color: #087f3e;
+    font-weight: 600;
 }
 
 .status-sem-localizacao {
-    color: #667085;
+    color: #64748b;
+}
+
+.status-localizado {
+    color: #1683ff;
 }
 
 .status-indicator {
-    width: 9px;
-    height: 9px;
+    width: 8px;
+    height: 8px;
+
+    flex-shrink: 0;
 
     border-radius: 50%;
 
     display: inline-block;
 }
 
+.indicador-offline {
+    background: #a8b3c2;
+}
+
 .indicador-online {
-    background: #19a85a;
+    background: #22c55e;
 
     box-shadow:
-        0 0 0 4px rgba(25, 168, 90, 0.12);
-}
-
-.indicador-offline {
-    background: #98a2b3;
+        0 0 0 4px rgba(34, 197, 94, 0.12);
 }
 
 
-/* ========================================== */
-/* ÚLTIMA ATUALIZAÇÃO */
-/* ========================================== */
+/* =========================================================
+   ÚLTIMA ATUALIZAÇÃO
+========================================================= */
 
 .update-info {
-    text-align: right;
+    width: 100%;
+
+    padding-top: 16px;
+
+    border-top: 1px solid #e5e7eb;
 }
 
 .update-info span {
     display: block;
 
-    color: #667085;
+    color: #94a3b8;
 
     font-size: 12px;
 
@@ -306,92 +265,251 @@ body {
 }
 
 .update-info strong {
+    display: block;
+
+    color: #334155;
+
     font-size: 14px;
+
+    font-weight: 600;
 }
 
 
-/* ========================================== */
-/* MAPA */
-/* ========================================== */
+/* =========================================================
+   MAPA
+========================================================= */
 
-.map-container {
-    background: white;
+.bus-map {
+    width: 100%;
 
-    border-radius: 18px;
-
-    overflow: hidden;
-
-    margin-bottom: 20px;
-
-    box-shadow:
-        0 4px 18px rgba(0, 0, 0, 0.06);
+    margin-top: 1px;
 }
 
-.map-header {
-    padding: 20px 22px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    gap: 15px;
+.bus-map-header {
+    margin-bottom: 9px;
 }
 
-.map-header h2 {
-    font-size: 19px;
-
-    margin-bottom: 4px;
-}
-
-.map-header p {
-    color: #667085;
+.bus-map-header span {
+    color: #64748b;
 
     font-size: 13px;
-}
 
-#centralizar {
-    border: none;
-
-    background: #e9f7ef;
-    color: #087f3e;
-
-    padding: 10px 15px;
-
-    border-radius: 9px;
-
-    font-weight: bold;
-
-    cursor: pointer;
-}
-
-#centralizar:hover {
-    background: #d8f0e2;
+    font-weight: 600;
 }
 
 #map {
     width: 100%;
-    height: 520px;
+    height: 360px;
+
+    border-radius: 15px;
+
+    overflow: hidden;
 }
 
 
-/* ========================================== */
-/* INFORMAÇÕES */
-/* ========================================== */
+/* Botão centralizar */
+
+.centralizar-btn {
+    display: block;
+
+    width: 100%;
+    height: 42px;
+
+    margin-top: 13px;
+
+    border: 1px solid #dce8f5;
+
+    border-radius: 11px;
+
+    background: #eef7ff;
+
+    color: #1683ff;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.15s ease;
+}
+
+.centralizar-btn:hover {
+    background: #e2f0ff;
+}
+
+.centralizar-btn:active {
+    transform: scale(0.99);
+}
+
+
+/* =========================================================
+   CARD DE HORÁRIOS
+========================================================= */
+
+.horarios-card {
+    width: 100%;
+
+    background: #ffffff;
+
+    border: 1px solid #edf0f4;
+
+    border-radius: 22px;
+
+    padding: 24px;
+
+    margin-bottom: 18px;
+
+    box-shadow:
+        0 4px 18px rgba(15, 23, 42, 0.045);
+}
+
+
+/* Cabeçalho */
+
+.section-heading {
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    margin-bottom: 22px;
+}
+
+.section-icon {
+    width: 46px;
+    height: 46px;
+
+    flex-shrink: 0;
+
+    border-radius: 14px;
+
+    background: #eef7ff;
+
+    color: #1683ff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.section-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.section-label {
+    display: block;
+
+    color: #94a3b8;
+
+    font-size: 11px;
+
+    margin-bottom: 2px;
+}
+
+.section-heading h2 {
+    color: #14213d;
+
+    font-size: 20px;
+
+    margin: 0 0 3px;
+}
+
+.section-heading p {
+    color: #94a3b8;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   LISTA DE HORÁRIOS
+========================================================= */
+
+.horarios-lista {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 10px;
+}
+
+.horario-item {
+    min-height: 52px;
+
+    background: #f8fafc;
+
+    border: 1px solid #edf0f4;
+
+    border-radius: 12px;
+
+    display: flex;
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.horario-item:hover {
+    background: #eef7ff;
+
+    border-color: #dcecff;
+}
+
+.horario-ponto {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #1683ff;
+
+    flex-shrink: 0;
+}
+
+.horario-item strong {
+    color: #334155;
+
+    font-size: 14px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   INFORMAÇÕES GERAIS
+========================================================= */
 
 .info-grid {
+    width: 100%;
+
     display: grid;
 
     grid-template-columns: repeat(3, 1fr);
 
-    gap: 15px;
+    gap: 12px;
+
+    margin-bottom: 20px;
 }
 
 .info-card {
-    background: white;
+    min-width: 0;
 
-    border-radius: 15px;
+    background: #ffffff;
 
-    padding: 18px;
+    border: 1px solid #edf0f4;
+
+    border-radius: 18px;
+
+    padding: 17px;
 
     display: flex;
     align-items: center;
@@ -399,42 +517,55 @@ body {
     gap: 12px;
 
     box-shadow:
-        0 4px 15px rgba(0, 0, 0, 0.05);
+        0 4px 15px rgba(15, 23, 42, 0.035);
 }
 
 .info-card-icon {
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
 
-    background: #e9f7ef;
+    flex-shrink: 0;
 
-    border-radius: 10px;
+    border-radius: 11px;
+
+    background: #eef7ff;
+
+    color: #1683ff;
 
     display: flex;
     align-items: center;
     justify-content: center;
+}
 
-    font-size: 20px;
+.info-card-icon svg {
+    width: 20px;
+    height: 20px;
 }
 
 .info-card span {
     display: block;
 
-    color: #667085;
+    color: #94a3b8;
 
-    font-size: 12px;
+    font-size: 10px;
 
     margin-bottom: 4px;
 }
 
 .info-card strong {
-    font-size: 14px;
+    display: block;
+
+    color: #334155;
+
+    font-size: 13px;
+
+    font-weight: 700;
 }
 
 
-/* ========================================== */
-/* MARCADOR DO ÔNIBUS */
-/* ========================================== */
+/* =========================================================
+   MARCADOR DO ÔNIBUS
+========================================================= */
 
 .icone-onibus {
     background: transparent;
@@ -442,10 +573,12 @@ body {
 }
 
 .bus-marker {
-    width: 50px;
-    height: 50px;
+    width: 48px;
+    height: 48px;
 
-    background: white;
+    background: #ffffff;
+
+    border: 3px solid #1683ff;
 
     border-radius: 50%;
 
@@ -453,18 +586,16 @@ body {
     align-items: center;
     justify-content: center;
 
-    font-size: 27px;
-
-    border: 3px solid #087f3e;
-
     box-shadow:
-        0 3px 10px rgba(0, 0, 0, 0.20);
+        0 3px 12px rgba(15, 23, 42, 0.20);
+
+    font-size: 25px;
 }
 
 
-/* ========================================== */
-/* MARCADOR DAS PARADAS */
-/* ========================================== */
+/* =========================================================
+   MARCADOR DAS PARADAS
+========================================================= */
 
 .icone-parada {
     background: transparent;
@@ -472,47 +603,53 @@ body {
 }
 
 .parada-marker {
-    width: 14px;
-    height: 14px;
+    width: 15px;
+    height: 15px;
 
-    background: white;
+    background: #ffffff;
 
-    border: 3px solid #087f3e;
+    border: 3px solid #1683ff;
 
     border-radius: 50%;
 
     box-shadow:
-        0 2px 6px rgba(0, 0, 0, 0.20);
+        0 2px 7px rgba(15, 23, 42, 0.18);
 }
 
 
-/* ========================================== */
-/* TÍTULOS DAS OUTRAS PÁGINAS */
-/* ========================================== */
+/* =========================================================
+   TÍTULOS DAS OUTRAS PÁGINAS
+========================================================= */
 
 .page-title {
-    background: white;
+    background: #ffffff;
 
-    border-radius: 18px;
+    border: 1px solid #edf0f4;
+
+    border-radius: 20px;
 
     padding: 22px;
 
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 
     display: flex;
     align-items: center;
 
-    gap: 15px;
+    gap: 14px;
 
     box-shadow:
-        0 4px 18px rgba(0, 0, 0, 0.06);
+        0 4px 18px rgba(15, 23, 42, 0.045);
 }
 
 .page-title-icon {
-    width: 52px;
-    height: 52px;
+    width: 50px;
+    height: 50px;
 
-    background: #e9f7ef;
+    flex-shrink: 0;
+
+    background: #eef7ff;
+
+    color: #1683ff;
 
     border-radius: 14px;
 
@@ -520,72 +657,82 @@ body {
     align-items: center;
     justify-content: center;
 
-    font-size: 26px;
+    font-size: 24px;
 }
 
 .page-title h2 {
-    font-size: 22px;
+    color: #14213d;
+
+    font-size: 21px;
 
     margin-bottom: 5px;
 }
 
 .page-title p {
-    color: #667085;
+    color: #64748b;
 
-    font-size: 14px;
+    font-size: 13px;
 }
 
 
-/* ========================================== */
-/* ROTA */
-/* ========================================== */
+/* =========================================================
+   ROTA
+========================================================= */
 
 .route-card {
-    background: white;
+    background: #ffffff;
 
-    border-radius: 18px;
+    border: 1px solid #edf0f4;
 
-    padding: 45px 25px;
+    border-radius: 20px;
+
+    padding: 40px 25px;
 
     text-align: center;
 
     box-shadow:
-        0 4px 18px rgba(0, 0, 0, 0.06);
+        0 4px 18px rgba(15, 23, 42, 0.045);
 
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 .route-placeholder-icon {
-    width: 75px;
-    height: 75px;
+    width: 72px;
+    height: 72px;
 
     margin: 0 auto 18px;
 
-    background: #e9f7ef;
+    background: #eef7ff;
 
-    border-radius: 20px;
+    color: #1683ff;
+
+    border-radius: 19px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    font-size: 38px;
+    font-size: 34px;
 }
 
 .route-card h2 {
-    font-size: 21px;
+    color: #14213d;
 
-    margin-bottom: 10px;
+    font-size: 20px;
+
+    margin-bottom: 9px;
 }
 
 .route-card p {
     max-width: 500px;
 
-    margin: 0 auto 18px;
+    margin: 0 auto 17px;
 
-    color: #667085;
+    color: #64748b;
 
     line-height: 1.6;
+
+    font-size: 14px;
 }
 
 .route-status {
@@ -599,35 +746,40 @@ body {
 
     border-radius: 20px;
 
-    font-size: 13px;
+    font-size: 12px;
 
-    font-weight: bold;
+    font-weight: 700;
 }
 
 .route-info {
-    background: white;
+    background: #ffffff;
 
-    border-radius: 18px;
+    border: 1px solid #edf0f4;
 
-    padding: 25px;
+    border-radius: 20px;
+
+    padding: 24px;
 
     box-shadow:
-        0 4px 18px rgba(0, 0, 0, 0.06);
+        0 4px 18px rgba(15, 23, 42, 0.045);
 }
 
 .route-info-item {
     display: flex;
     align-items: center;
 
-    gap: 15px;
+    gap: 14px;
 }
 
 .route-number {
     width: 38px;
     height: 38px;
 
-    background: #087f3e;
-    color: white;
+    flex-shrink: 0;
+
+    background: #1683ff;
+
+    color: #ffffff;
 
     border-radius: 50%;
 
@@ -636,7 +788,8 @@ body {
     justify-content: center;
 
     font-size: 13px;
-    font-weight: bold;
+
+    font-weight: 700;
 }
 
 .route-info-item strong {
@@ -648,7 +801,7 @@ body {
 }
 
 .route-info-item p {
-    color: #667085;
+    color: #64748b;
 
     font-size: 13px;
 }
@@ -657,38 +810,41 @@ body {
     width: 2px;
     height: 28px;
 
-    background: #cfe3d7;
+    background: #dcecff;
 
     margin-left: 18px;
 }
 
 
-/* ========================================== */
-/* AVISOS */
-/* ========================================== */
+/* =========================================================
+   AVISOS
+========================================================= */
 
 .notice-card {
-    background: white;
+    background: #ffffff;
 
-    border-radius: 18px;
+    border: 1px solid #edf0f4;
+
+    border-radius: 20px;
 
     padding: 22px;
 
     display: flex;
-
     align-items: flex-start;
 
-    gap: 15px;
+    gap: 14px;
 
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 
     box-shadow:
-        0 4px 18px rgba(0, 0, 0, 0.06);
+        0 4px 18px rgba(15, 23, 42, 0.045);
 }
 
 .notice-icon {
     width: 48px;
     height: 48px;
+
+    flex-shrink: 0;
 
     background: #fff5d9;
 
@@ -698,19 +854,19 @@ body {
     align-items: center;
     justify-content: center;
 
-    font-size: 24px;
-
-    flex-shrink: 0;
+    font-size: 23px;
 }
 
 .notice-card h3 {
+    color: #14213d;
+
     font-size: 17px;
 
     margin-bottom: 6px;
 }
 
 .notice-card p {
-    color: #667085;
+    color: #64748b;
 
     font-size: 14px;
 
@@ -718,72 +874,77 @@ body {
 }
 
 .empty-notice {
-    background: white;
+    background: #ffffff;
 
-    border-radius: 18px;
+    border: 1px solid #edf0f4;
 
-    padding: 55px 25px;
+    border-radius: 20px;
+
+    padding: 50px 25px;
 
     text-align: center;
 
     box-shadow:
-        0 4px 18px rgba(0, 0, 0, 0.06);
+        0 4px 18px rgba(15, 23, 42, 0.045);
 }
 
 .empty-notice > div {
-    font-size: 38px;
+    font-size: 36px;
 
-    margin-bottom: 15px;
+    margin-bottom: 14px;
 }
 
 .empty-notice h2 {
+    color: #14213d;
+
     font-size: 19px;
 
     margin-bottom: 7px;
 }
 
 .empty-notice p {
-    color: #667085;
+    color: #64748b;
 
     font-size: 14px;
 }
 
 
-/* ========================================== */
-/* NAVEGAÇÃO INFERIOR */
-/* ========================================== */
+/* =========================================================
+   NAVEGAÇÃO INFERIOR
+========================================================= */
 
 .bottom-nav {
     position: fixed;
 
     bottom: 0;
     left: 0;
-
-    width: 100%;
+    right: 0;
 
     height: 68px;
 
-    background: white;
+    background: #ffffff;
 
     border-top: 1px solid #e5e7eb;
 
     display: flex;
     justify-content: center;
+    align-items: stretch;
 
     z-index: 1000;
 
     box-shadow:
-        0 -3px 12px rgba(0, 0, 0, 0.04);
+        0 -3px 12px rgba(15, 23, 42, 0.05);
 }
 
 .nav-button {
     width: 150px;
+    max-width: 33.33vw;
 
     border: none;
 
     background: transparent;
 
-    color: #667085;
+    color: #64748b;
 
     cursor: pointer;
 
@@ -797,7 +958,9 @@ body {
 
     font-size: 11px;
 
-    transition: 0.2s;
+    transition:
+        color 0.2s ease,
+        transform 0.15s ease;
 }
 
 .nav-icon {
@@ -810,28 +973,32 @@ body {
 }
 
 .nav-button:hover {
-    color: #087f3e;
+    color: #1683ff;
 }
 
 .nav-button.ativo {
-    color: #087f3e;
+    color: #1683ff;
 
-    font-weight: bold;
+    font-weight: 700;
+}
+
+.nav-button:active {
+    transform: scale(0.96);
 }
 
 
-/* ========================================== */
-/* RODAPÉ */
-/* ========================================== */
+/* =========================================================
+   RODAPÉ
+========================================================= */
 
 footer {
     text-align: center;
 
-    padding: 30px 20px;
+    padding: 28px 20px;
 
-    color: #667085;
+    color: #94a3b8;
 
-    font-size: 12px;
+    font-size: 11px;
 }
 
 footer p {
@@ -839,9 +1006,26 @@ footer p {
 }
 
 
-/* ========================================== */
-/* CELULAR */
-/* ========================================== */
+/* =========================================================
+   RESPONSIVO — TABLET
+========================================================= */
+
+@media (max-width: 850px) {
+
+    .horarios-lista {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVO — CELULAR
+========================================================= */
 
 @media (max-width: 700px) {
 
@@ -850,115 +1034,257 @@ footer p {
     }
 
 
-    .header {
-        padding: 15px 5%;
+    /* HEADER */
 
-        align-items: center;
+    .header {
+        height: 76px;
+        min-height: 76px;
+
+        justify-content: space-between;
+    }
+
+    .logo {
+        height: 76px;
+
+        margin-left: 15px;
+    }
+
+    .logo img {
+        width: 300px;
+
+        max-height: 72px;
+
+        margin-left: -60px;
+    }
+
+    .header-status {
+        margin-right: 15px;
+
+        font-size: 10px;
+    }
+
+    .status-dot {
+        width: 7px;
+        height: 7px;
     }
 
 
-    .logo-icon {
+    /* CONTAINER */
+
+    .container {
+        width: 100%;
+
+        padding: 14px 14px 20px;
+
+        margin: 0 auto;
+    }
+
+
+    /* CARD DO ÔNIBUS */
+
+    .bus-card {
+        padding: 17px;
+
+        border-radius: 20px;
+
+        gap: 14px;
+
+        margin-bottom: 14px;
+    }
+
+    .bus-info {
+        gap: 11px;
+    }
+
+    .bus-icon {
+        width: 48px;
+        height: 48px;
+
+        border-radius: 14px;
+    }
+
+    .bus-icon svg {
+        width: 28px;
+        height: 28px;
+    }
+
+    .label {
+        font-size: 11px;
+    }
+
+    .bus-info h1 {
+        font-size: 23px;
+    }
+
+    .bus-status {
+        font-size: 12px;
+
+        gap: 6px;
+
+        margin-top: 4px;
+    }
+
+    .status-indicator {
+        width: 8px;
+        height: 8px;
+    }
+
+
+    /* ATUALIZAÇÃO */
+
+    .update-info {
+        padding-top: 12px;
+    }
+
+    .update-info span {
+        font-size: 11px;
+
+        margin-bottom: 4px;
+    }
+
+    .update-info strong {
+        font-size: 13px;
+    }
+
+
+    /* MAPA */
+
+    .bus-map-header {
+        margin-bottom: 8px;
+    }
+
+    .bus-map-header span {
+        font-size: 13px;
+    }
+
+    #map {
+        height: 220px;
+
+        border-radius: 12px;
+    }
+
+    .centralizar-btn {
+        height: 38px;
+
+        margin-top: 11px;
+
+        border-radius: 10px;
+
+        font-size: 12px;
+    }
+
+
+    /* HORÁRIOS */
+
+    .horarios-card {
+        padding: 18px;
+
+        border-radius: 20px;
+
+        margin-bottom: 14px;
+    }
+
+    .section-heading {
+        gap: 10px;
+
+        margin-bottom: 16px;
+    }
+
+    .section-icon {
         width: 42px;
         height: 42px;
 
-        font-size: 22px;
+        border-radius: 12px;
     }
 
-
-    .logo h1 {
-        font-size: 19px;
+    .section-icon svg {
+        width: 21px;
+        height: 21px;
     }
 
+    .section-label {
+        font-size: 10px;
+    }
 
-    .logo span {
+    .section-heading h2 {
+        font-size: 18px;
+    }
+
+    .section-heading p {
         font-size: 11px;
     }
 
+    .horarios-lista {
+        grid-template-columns: repeat(3, 1fr);
 
-    .header-status {
-        font-size: 11px;
+        gap: 8px;
+    }
+
+    .horario-item {
+        min-height: 44px;
+
+        border-radius: 10px;
+
+        gap: 6px;
+    }
+
+    .horario-ponto {
+        width: 6px;
+        height: 6px;
+    }
+
+    .horario-item strong {
+        font-size: 12px;
     }
 
 
-    .container {
-        width: 94%;
-
-        margin: 20px auto;
-    }
-
-
-    .share-card {
-        flex-direction: column;
-
-        align-items: stretch;
-
-        padding: 20px;
-    }
-
-
-    .share-buttons {
-        width: 100%;
-    }
-
-
-    .bus-card {
-        flex-direction: column;
-
-        align-items: stretch;
-
-        padding: 20px;
-    }
-
-
-    .update-info {
-        text-align: left;
-
-        padding-top: 12px;
-
-        border-top: 1px solid #edf0ee;
-    }
-
-
-    .map-header {
-        flex-direction: column;
-
-        align-items: stretch;
-    }
-
-
-    #centralizar {
-        width: 100%;
-    }
-
-
-    #map {
-        height: 420px;
-    }
-
+    /* INFORMAÇÕES */
 
     .info-grid {
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
+
+        gap: 9px;
+
+        margin-bottom: 10px;
+    }
+
+    .info-card {
+        padding: 13px;
+
+        border-radius: 15px;
+
+        gap: 11px;
+    }
+
+    .info-card-icon {
+        width: 37px;
+        height: 37px;
+
+        border-radius: 10px;
+    }
+
+    .info-card-icon svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .info-card span {
+        font-size: 10px;
+    }
+
+    .info-card strong {
+        font-size: 12px;
     }
 
 
-    .page-title {
-        padding: 18px;
-    }
-
-
-    .page-title h2 {
-        font-size: 19px;
-    }
-
-
-    /* NAVEGAÇÃO NO CELULAR */
+    /* NAVEGAÇÃO */
 
     .bottom-nav {
         height: 64px;
 
         padding: 4px 25px;
     }
-
 
     .nav-button {
         width: 33.33%;
@@ -968,12 +1294,45 @@ footer p {
         gap: 2px;
     }
 
-
     .nav-icon {
         width: 18px;
         height: 18px;
 
         stroke-width: 1.7;
+    }
+
+
+    /* RODAPÉ */
+
+    footer {
+        padding: 20px 15px 15px;
+
+        font-size: 10px;
+    }
+
+}
+
+
+/* =========================================================
+   CELULARES MUITO PEQUENOS
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .logo img {
+        width: 280px;
+
+        margin-left: -55px;
+    }
+
+    .header-status {
+        font-size: 9px;
+
+        margin-right: 10px;
+    }
+
+    .horarios-lista {
+        grid-template-columns: repeat(2, 1fr);
     }
 
 }

@@ -10,12 +10,986 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Rota | Cadê o Intra?</title>
+    <title>Rota | Cadê o Intra? | UFC</title>
 
     <link
         rel="stylesheet"
         href="style.css"
     >
+
+    <style>
+
+        /* =====================================================
+           ÁREA GERAL DA ROTA
+           O FUNDO OCUPA TODA A ÁREA ENTRE HEADER E NAV
+        ===================================================== */
+
+        body {
+            margin: 0;
+            background: #e5f5ff;
+        }
+
+
+        .rota-area {
+
+            position: relative;
+
+            min-height: calc(100vh - 68px);
+
+            padding:
+                28px
+                20px
+                90px;
+
+            box-sizing: border-box;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #e5f5ff 0%,
+                    #ccebf8 50%,
+                    #e1f2e6 100%
+                );
+
+        }
+
+
+        /* =====================================================
+           DECORAÇÕES DO FUNDO
+        ===================================================== */
+
+        .area-verde {
+
+            position: absolute;
+
+            width: 320px;
+
+            height: 220px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(106, 185, 126, .15);
+
+            pointer-events: none;
+
+        }
+
+
+        .area-verde-1 {
+
+            top: -80px;
+
+            left: -100px;
+
+            transform: rotate(-15deg);
+
+        }
+
+
+        .area-verde-2 {
+
+            bottom: -80px;
+
+            right: -100px;
+
+            transform: rotate(20deg);
+
+        }
+
+
+        .area-brilho {
+
+            position: absolute;
+
+            width: 500px;
+
+            height: 500px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255,255,255,.18);
+
+            top: 35%;
+
+            left: 50%;
+
+            transform:
+                translate(-50%, -50%);
+
+            pointer-events: none;
+
+        }
+
+
+        /* =====================================================
+           CONTEÚDO DA ROTA
+        ===================================================== */
+
+        .rota-conteudo {
+
+            position: relative;
+
+            z-index: 5;
+
+            width: min(900px, 100%);
+
+            margin: 0 auto;
+
+        }
+
+
+        .rota-titulo {
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .rota-titulo .label {
+
+            display: block;
+
+            margin-bottom: 5px;
+
+            color: #398cc0;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            letter-spacing: .7px;
+
+            text-transform: uppercase;
+
+        }
+
+
+        .rota-titulo h1 {
+
+            margin: 0;
+
+            color: #173b60;
+
+            font-size: 28px;
+
+            font-weight: 700;
+
+            letter-spacing: -.6px;
+
+        }
+
+
+        .rota-titulo p {
+
+            margin: 6px 0 0;
+
+            color: #657784;
+
+            font-size: 13px;
+
+        }
+
+
+        /* =====================================================
+           SISTEMA DA ROTA
+           ESTE É O FUNDO PRINCIPAL DA ROTA
+        ===================================================== */
+
+        .mapa-rota {
+
+            position: relative;
+
+            width: 100%;
+
+            height: 590px;
+
+            overflow: hidden;
+
+            border-radius: 28px;
+
+            background:
+                rgba(255,255,255,.16);
+
+            border:
+                1px solid rgba(255,255,255,.40);
+
+            box-shadow:
+                0 12px 35px
+                rgba(24,75,110,.10);
+
+        }
+
+
+        .mapa-rota::before {
+
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            opacity: .28;
+
+            background-image:
+                radial-gradient(
+                    circle at 20% 20%,
+                    #ffffff 0 2px,
+                    transparent 3px
+                );
+
+            background-size: 70px 70px;
+
+            pointer-events: none;
+
+        }
+
+
+        /* =====================================================
+           LINHA DA ROTA
+        ===================================================== */
+
+        .rota-linha {
+
+            position: absolute;
+
+            left: 50%;
+
+            top: 45px;
+
+            width: 8px;
+
+            height: 500px;
+
+            transform:
+                translateX(-50%);
+
+            border-radius: 20px;
+
+            background:
+                rgba(255,255,255,.95);
+
+            box-shadow:
+                0 0 0 4px
+                rgba(50,135,190,.10);
+
+            z-index: 2;
+
+        }
+
+
+        .rota-linha::after {
+
+            content: "";
+
+            position: absolute;
+
+            left: 50%;
+
+            top: 0;
+
+            width: 4px;
+
+            height: 100%;
+
+            transform:
+                translateX(-50%);
+
+            background:
+                repeating-linear-gradient(
+                    to bottom,
+                    #398cc0 0,
+                    #398cc0 18px,
+                    transparent 18px,
+                    transparent 32px
+                );
+
+            border-radius: 20px;
+
+        }
+
+
+        /* =====================================================
+           ÔNIBUS
+        ===================================================== */
+
+        .onibus-rota {
+
+            position: absolute;
+
+            left: 50%;
+
+            top: 16px;
+
+            width: 48px;
+
+            height: 48px;
+
+            transform:
+                translateX(-50%);
+
+            z-index: 15;
+
+            pointer-events: none;
+
+        }
+
+
+        .onibus-rota svg {
+
+            width: 100%;
+
+            height: 100%;
+
+            filter:
+                drop-shadow(
+                    0 5px 7px
+                    rgba(20,70,100,.20)
+                );
+
+        }
+
+
+        /* =====================================================
+           PONTOS
+        ===================================================== */
+
+        .ponto {
+
+            position: absolute;
+
+            left: 50%;
+
+            transform:
+                translateX(-50%);
+
+            z-index: 20;
+
+        }
+
+
+        .ponto-1 {
+            top: 38px;
+        }
+
+        .ponto-2 {
+            top: 112px;
+        }
+
+        .ponto-3 {
+            top: 186px;
+        }
+
+        .ponto-4 {
+            top: 260px;
+        }
+
+        .ponto-5 {
+            top: 334px;
+        }
+
+        .ponto-6 {
+            top: 408px;
+        }
+
+        .ponto-7 {
+            top: 482px;
+        }
+
+
+        .ponto-botao {
+
+            position: relative;
+
+            width: 28px;
+
+            height: 28px;
+
+            padding: 0;
+
+            border-radius: 50%;
+
+            border: 5px solid white;
+
+            background: #3188bd;
+
+            box-shadow:
+                0 4px 12px
+                rgba(20,75,110,.20);
+
+            cursor: pointer;
+
+            transition:
+                transform .25s ease,
+                box-shadow .25s ease;
+
+        }
+
+
+        .ponto-botao:hover {
+
+            transform:
+                scale(1.13);
+
+        }
+
+
+        .ponto-botao.inicio {
+
+            background: #19a974;
+
+        }
+
+
+        .ponto-botao.destino {
+
+            background: #246bce;
+
+        }
+
+
+        .ponto.selecionado
+        .ponto-botao {
+
+            transform:
+                scale(1.35);
+
+            box-shadow:
+                0 0 0 8px
+                rgba(49,136,189,.15),
+
+                0 7px 18px
+                rgba(20,75,110,.24);
+
+        }
+
+
+        /* =====================================================
+           NOMES DOS PONTOS
+        ===================================================== */
+
+        .ponto-label {
+
+            position: absolute;
+
+            top: 50%;
+
+            width: 145px;
+
+            transform:
+                translateY(-50%);
+
+            padding: 11px 13px;
+
+            border-radius: 14px;
+
+            background:
+                rgba(255,255,255,.95);
+
+            border:
+                1px solid
+                rgba(255,255,255,.8);
+
+            box-shadow:
+                0 6px 18px
+                rgba(30,80,110,.10);
+
+            cursor: pointer;
+
+            transition:
+                transform .25s ease,
+                box-shadow .25s ease;
+
+        }
+
+
+        .ponto-label:hover {
+
+            box-shadow:
+                0 9px 22px
+                rgba(30,80,110,.16);
+
+        }
+
+
+        .ponto-label.esquerda {
+
+            right: 45px;
+
+            text-align: right;
+
+        }
+
+
+        .ponto-label.direita {
+
+            left: 45px;
+
+        }
+
+
+        .ponto-label strong {
+
+            display: block;
+
+            color: #173b60;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+        }
+
+
+        .ponto-label span {
+
+            display: block;
+
+            margin-top: 3px;
+
+            color: #7a8794;
+
+            font-size: 10px;
+
+        }
+
+
+        /* =====================================================
+           PAINEL FLUTUANTE
+        ===================================================== */
+
+        .painel-ponto {
+
+            position: absolute;
+
+            width: 220px;
+
+            padding: 15px;
+
+            box-sizing: border-box;
+
+            border-radius: 17px;
+
+            background:
+                rgba(255,255,255,.98);
+
+            box-shadow:
+                0 12px 28px
+                rgba(20,70,100,.20);
+
+            border:
+                1px solid
+                rgba(255,255,255,.9);
+
+            opacity: 0;
+
+            visibility: hidden;
+
+            transform:
+                translateY(8px)
+                scale(.96);
+
+            transition:
+                opacity .25s ease,
+                transform .25s ease,
+                visibility .25s ease;
+
+            z-index: 100;
+
+        }
+
+
+        .painel-ponto.aberto {
+
+            opacity: 1;
+
+            visibility: visible;
+
+            transform:
+                translateY(0)
+                scale(1);
+
+        }
+
+
+        .painel-ponto::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 12px;
+
+            height: 12px;
+
+            background: white;
+
+            transform:
+                rotate(45deg);
+
+        }
+
+
+        .painel-ponto.esquerda::after {
+
+            right: -6px;
+
+            top: 30px;
+
+        }
+
+
+        .painel-ponto.direita::after {
+
+            left: -6px;
+
+            top: 30px;
+
+        }
+
+
+        .painel-topo {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            justify-content: space-between;
+
+            gap: 10px;
+
+        }
+
+
+        .painel-local {
+
+            display: flex;
+
+            gap: 10px;
+
+            align-items: flex-start;
+
+        }
+
+
+        .painel-icone {
+
+            width: 34px;
+
+            height: 34px;
+
+            flex-shrink: 0;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 10px;
+
+            background: #eaf5fb;
+
+            color: #2377aa;
+
+        }
+
+
+        .painel-icone svg {
+
+            width: 18px;
+
+            height: 18px;
+
+        }
+
+
+        .painel-texto h3 {
+
+            margin: 0;
+
+            color: #173b60;
+
+            font-size: 15px;
+
+        }
+
+
+        .painel-texto p {
+
+            margin: 3px 0 0;
+
+            color: #718096;
+
+            font-size: 11px;
+
+            line-height: 1.4;
+
+        }
+
+
+        .fechar-painel {
+
+            width: 27px;
+
+            height: 27px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            background: #f2f5f7;
+
+            color: #718096;
+
+            font-size: 17px;
+
+            line-height: 1;
+
+            cursor: pointer;
+
+        }
+
+
+        .botao-mapa {
+
+            width: 100%;
+
+            margin-top: 12px;
+
+            padding: 10px 12px;
+
+            border: none;
+
+            border-radius: 11px;
+
+            background: #2079ae;
+
+            color: white;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition:
+                transform .2s ease,
+                background .2s ease;
+
+        }
+
+
+        .botao-mapa:hover {
+
+            transform:
+                translateY(-1px);
+
+            background: #17658f;
+
+        }
+
+
+        /* =====================================================
+           LEGENDA
+        ===================================================== */
+
+        .rota-legenda {
+
+            display: flex;
+
+            justify-content: center;
+
+            flex-wrap: wrap;
+
+            gap: 18px;
+
+            margin-top: 15px;
+
+        }
+
+
+        .legenda-item {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            color: #536b79;
+
+            font-size: 11px;
+
+            font-weight: 500;
+
+        }
+
+
+        .legenda-ponto {
+
+            width: 9px;
+
+            height: 9px;
+
+            border-radius: 50%;
+
+            background: #3188bd;
+
+        }
+
+
+        .legenda-ponto.inicio {
+
+            background: #19a974;
+
+        }
+
+
+        .legenda-ponto.destino {
+
+            background: #246bce;
+
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 700px) {
+
+            .rota-area {
+
+                min-height:
+                    calc(100vh - 64px);
+
+                padding:
+                    22px
+                    12px
+                    82px;
+
+            }
+
+
+            .rota-titulo {
+
+                margin-left: 4px;
+
+                margin-bottom: 15px;
+
+            }
+
+
+            .rota-titulo h1 {
+
+                font-size: 24px;
+
+            }
+
+
+            .rota-titulo p {
+
+                font-size: 12px;
+
+            }
+
+
+            .mapa-rota {
+
+                height: 610px;
+
+                border-radius: 22px;
+
+            }
+
+
+            .rota-linha {
+
+                height: 520px;
+
+            }
+
+
+            .ponto-1 {
+                top: 38px;
+            }
+
+            .ponto-2 {
+                top: 118px;
+            }
+
+            .ponto-3 {
+                top: 198px;
+            }
+
+            .ponto-4 {
+                top: 278px;
+            }
+
+            .ponto-5 {
+                top: 358px;
+            }
+
+            .ponto-6 {
+                top: 438px;
+            }
+
+            .ponto-7 {
+                top: 518px;
+            }
+
+
+            .ponto-label {
+
+                width: 125px;
+
+                padding:
+                    9px 10px;
+
+            }
+
+
+            .ponto-label.esquerda {
+
+                right: 40px;
+
+            }
+
+
+            .ponto-label.direita {
+
+                left: 40px;
+
+            }
+
+
+            .ponto-label strong {
+
+                font-size: 12px;
+
+            }
+
+
+            .ponto-label span {
+
+                font-size: 9px;
+
+            }
+
+
+            .painel-ponto {
+
+                width: 195px;
+
+            }
+
+        }
+
+    </style>
 
 </head>
 
@@ -23,192 +997,531 @@
 <body>
 
 
-    <!-- ========================================== -->
-    <!-- CABEÇALHO -->
-    <!-- ========================================== -->
+<!-- =====================================================
+     CABEÇALHO
+     EXATAMENTE O MESMO DO INDEX.HTML
+====================================================== -->
 
-    <header class="header">
+<header class="header">
 
-        <div class="logo">
+    <div class="logo">
 
-            <div class="logo-icon">
-                🚌
-            </div>
+        <img
+            src="/logo.png"
+            alt="Cadê o Intra?"
+        >
 
-            <div>
-
-                <h1>
-                    Cadê o Intra?
-                </h1>
-
-                <span>
-                    Transporte intercampi • UFC
-                </span>
-
-            </div>
-
-        </div>
+    </div>
 
 
-        <div class="header-status">
+    <div class="header-status">
 
-            <span class="status-dot"></span>
+        <span class="status-dot"></span>
 
-            Sistema online
+        Sistema online
 
-        </div>
+    </div>
 
-    </header>
+</header>
 
 
 
-    <!-- ========================================== -->
-    <!-- CONTEÚDO -->
-    <!-- ========================================== -->
+<!-- =====================================================
+     ÁREA COMPLETA DA ROTA
+====================================================== -->
 
-    <main class="container">
+<main class="rota-area">
 
 
-        <!-- TÍTULO -->
+    <div class="area-verde area-verde-1"></div>
 
-        <section class="page-title">
+    <div class="area-verde area-verde-2"></div>
 
-            <span class="page-title-icon">
-                🗺️
+    <div class="area-brilho"></div>
+
+
+
+    <div class="rota-conteudo">
+
+
+        <section class="rota-titulo">
+
+            <span class="label">
+                Transporte intercampi
             </span>
 
-            <div>
-
-                <h2>
-                    Rota do Intra
-                </h2>
-
-                <p>
-                    Veja o trajeto e os pontos de parada do ônibus.
-                </p>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- ====================================== -->
-        <!-- ROTA -->
-        <!-- ====================================== -->
-
-        <section class="route-card">
-
-            <div class="route-placeholder-icon">
-                🚌
-            </div>
-
-            <h2>
-                Rota em construção
-            </h2>
+            <h1>
+                Rota do Intra
+            </h1>
 
             <p>
-                Em breve você poderá visualizar o trajeto
-                completo do Intra, incluindo seus pontos
-                de parada.
+                Toque em uma parada para conhecer o local.
             </p>
 
-            <div class="route-status">
-                🚧 Em desenvolvimento
+        </section>
+
+
+
+        <!-- =================================================
+             SISTEMA DA ROTA
+        ================================================== -->
+
+        <section
+            class="mapa-rota"
+            id="mapaRota"
+        >
+
+
+            <!-- LINHA -->
+
+            <div class="rota-linha"></div>
+
+
+
+            <!-- ÔNIBUS -->
+
+            <div class="onibus-rota">
+
+                <svg
+                    viewBox="0 0 64 64"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+
+                    <rect
+                        x="10"
+                        y="9"
+                        width="44"
+                        height="43"
+                        rx="10"
+                        fill="#FFFFFF"
+                        stroke="#216B98"
+                        stroke-width="3"
+                    />
+
+                    <rect
+                        x="16"
+                        y="15"
+                        width="32"
+                        height="15"
+                        rx="4"
+                        fill="#9ED9F1"
+                        stroke="#216B98"
+                        stroke-width="2"
+                    />
+
+                    <path
+                        d="M32 15V30"
+                        stroke="#216B98"
+                        stroke-width="2"
+                    />
+
+                    <path
+                        d="M16 37H48"
+                        stroke="#216B98"
+                        stroke-width="2"
+                    />
+
+                    <circle
+                        cx="18"
+                        cy="38"
+                        r="2.5"
+                        fill="#F2C94C"
+                    />
+
+                    <circle
+                        cx="46"
+                        cy="38"
+                        r="2.5"
+                        fill="#F2C94C"
+                    />
+
+                    <circle
+                        cx="19"
+                        cy="52"
+                        r="6"
+                        fill="#173B60"
+                    />
+
+                    <circle
+                        cx="45"
+                        cy="52"
+                        r="6"
+                        fill="#173B60"
+                    />
+
+                    <circle
+                        cx="19"
+                        cy="52"
+                        r="2"
+                        fill="#FFFFFF"
+                    />
+
+                    <circle
+                        cx="45"
+                        cy="52"
+                        r="2"
+                        fill="#FFFFFF"
+                    />
+
+                </svg>
+
             </div>
+
+
+
+            <!-- =================================================
+                 PONTO 1
+            ================================================== -->
+
+            <div class="ponto ponto-1">
+
+                <button
+                    class="ponto-botao inicio"
+                    aria-label="Mucambinho"
+                    onclick="selecionarPonto(0)"
+                ></button>
+
+
+                <div
+                    class="ponto-label esquerda"
+                    onclick="selecionarPonto(0)"
+                >
+
+                    <strong>
+                        Mucambinho
+                    </strong>
+
+                    <span>
+                        Início da rota
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PONTO 2 -->
+
+            <div class="ponto ponto-2">
+
+                <button
+                    class="ponto-botao"
+                    aria-label="Santa Casa"
+                    onclick="selecionarPonto(1)"
+                ></button>
+
+
+                <div
+                    class="ponto-label direita"
+                    onclick="selecionarPonto(1)"
+                >
+
+                    <strong>
+                        Santa Casa
+                    </strong>
+
+                    <span>
+                        Ponto de parada
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PONTO 3 -->
+
+            <div class="ponto ponto-3">
+
+                <button
+                    class="ponto-botao"
+                    aria-label="SPA"
+                    onclick="selecionarPonto(2)"
+                ></button>
+
+
+                <div
+                    class="ponto-label esquerda"
+                    onclick="selecionarPonto(2)"
+                >
+
+                    <strong>
+                        SPA
+                    </strong>
+
+                    <span>
+                        Ponto de parada
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PONTO 4 -->
+
+            <div class="ponto ponto-4">
+
+                <button
+                    class="ponto-botao"
+                    aria-label="Cadeia Criativa"
+                    onclick="selecionarPonto(3)"
+                ></button>
+
+
+                <div
+                    class="ponto-label direita"
+                    onclick="selecionarPonto(3)"
+                >
+
+                    <strong>
+                        Cadeia Criativa
+                    </strong>
+
+                    <span>
+                        Ponto de parada
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PONTO 5 -->
+
+            <div class="ponto ponto-5">
+
+                <button
+                    class="ponto-botao"
+                    aria-label="Goiabão"
+                    onclick="selecionarPonto(4)"
+                ></button>
+
+
+                <div
+                    class="ponto-label esquerda"
+                    onclick="selecionarPonto(4)"
+                >
+
+                    <strong>
+                        Goiabão
+                    </strong>
+
+                    <span>
+                        Ponto de parada
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PONTO 6 -->
+
+            <div class="ponto ponto-6">
+
+                <button
+                    class="ponto-botao"
+                    aria-label="Receita Federal"
+                    onclick="selecionarPonto(5)"
+                ></button>
+
+
+                <div
+                    class="ponto-label direita"
+                    onclick="selecionarPonto(5)"
+                >
+
+                    <strong>
+                        Receita Federal
+                    </strong>
+
+                    <span>
+                        Ponto de parada
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PONTO 7 -->
+
+            <div class="ponto ponto-7">
+
+                <button
+                    class="ponto-botao destino"
+                    aria-label="FAMED"
+                    onclick="selecionarPonto(6)"
+                ></button>
+
+
+                <div
+                    class="ponto-label esquerda"
+                    onclick="selecionarPonto(6)"
+                >
+
+                    <strong>
+                        FAMED
+                    </strong>
+
+                    <span>
+                        Destino da rota
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 PAINEL FLUTUANTE
+            ================================================== -->
+
+            <div
+                id="painelPonto"
+                class="painel-ponto"
+            >
+
+
+                <div class="painel-topo">
+
+
+                    <div class="painel-local">
+
+
+                        <div class="painel-icone">
+
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+
+                                <path
+                                    d="M12 21s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12z"
+                                />
+
+                                <circle
+                                    cx="12"
+                                    cy="9"
+                                    r="2.5"
+                                />
+
+                            </svg>
+
+                        </div>
+
+
+                        <div class="painel-texto">
+
+                            <h3 id="nomePonto">
+                                Mucambinho
+                            </h3>
+
+                            <p id="descricaoPonto">
+                                Ponto inicial da rota.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        class="fechar-painel"
+                        onclick="fecharPainel()"
+                        aria-label="Fechar"
+                    >
+                        ×
+                    </button>
+
+                </div>
+
+
+                <button
+                    id="botaoMapa"
+                    class="botao-mapa"
+                    onclick="verNoMapa()"
+                >
+                    Ver localização no mapa
+                </button>
+
+
+            </div>
+
 
         </section>
 
 
 
-        <!-- ====================================== -->
-        <!-- PONTOS DA ROTA -->
-        <!-- ====================================== -->
+        <!-- =================================================
+             LEGENDA
+        ================================================== -->
 
-        <section class="route-info">
+        <div class="rota-legenda">
 
 
-            <div class="route-info-item">
+            <div class="legenda-item">
 
-                <span class="route-number">
-                    01
-                </span>
+                <span
+                    class="legenda-ponto inicio"
+                ></span>
 
-                <div>
-
-                    <strong>
-                        Ponto inicial
-                    </strong>
-
-                    <p>
-                        Em breve
-                    </p>
-
-                </div>
+                Início
 
             </div>
 
 
-            <div class="route-line"></div>
+            <div class="legenda-item">
 
+                <span
+                    class="legenda-ponto"
+                ></span>
 
-            <div class="route-info-item">
-
-                <span class="route-number">
-                    02
-                </span>
-
-                <div>
-
-                    <strong>
-                        Pontos intermediários
-                    </strong>
-
-                    <p>
-                        Em breve
-                    </p>
-
-                </div>
+                Parada
 
             </div>
 
 
-            <div class="route-line"></div>
+            <div class="legenda-item">
 
+                <span
+                    class="legenda-ponto destino"
+                ></span>
 
-            <div class="route-info-item">
-
-                <span class="route-number">
-                    03
-                </span>
-
-                <div>
-
-                    <strong>
-                        Destino
-                    </strong>
-
-                    <p>
-                        Em breve
-                    </p>
-
-                </div>
+                Destino
 
             </div>
 
 
-        </section>
+        </div>
 
 
-    </main>
+    </div>
+
+</main>
 
 
 
-    <!-- ========================================== -->
-    <!-- NAVEGAÇÃO -->
-    <!-- ========================================== -->
+<!-- =====================================================
+     NAVEGAÇÃO
+     EXATAMENTE O MESMO PADRÃO DO INDEX
+====================================================== -->
 
-    <nav class="bottom-nav">
+<nav class="bottom-nav">
+
 
     <button
         class="nav-button"
@@ -224,18 +1537,26 @@
             stroke-linecap="round"
             stroke-linejoin="round"
         >
+
             <path d="M3 10.5L12 3l9 7.5"/>
+
             <path d="M5.5 9.5V21h13V9.5"/>
+
             <path d="M9.5 21v-6h5v6"/>
+
         </svg>
 
-        <span>Início</span>
+        <span>
+            Início
+        </span>
 
     </button>
 
 
+
     <button
         class="nav-button ativo"
+        onclick="window.location.href='rota.html'"
     >
 
         <svg
@@ -247,14 +1568,23 @@
             stroke-linecap="round"
             stroke-linejoin="round"
         >
-            <path d="M9 18l-6 3V6l6-3 6 3 6-3v15l-6 3-6-3z"/>
+
+            <path
+                d="M9 18l-6 3V6l6-3 6 3 6-3v15l-6 3-6-3z"
+            />
+
             <path d="M9 3v15"/>
+
             <path d="M15 6v15"/>
+
         </svg>
 
-        <span>Rota</span>
+        <span>
+            Rota
+        </span>
 
     </button>
+
 
 
     <button
@@ -271,33 +1601,364 @@
             stroke-linecap="round"
             stroke-linejoin="round"
         >
-            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
+
+            <path
+                d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"
+            />
+
             <path d="M10 21h4"/>
+
         </svg>
 
-        <span>Avisos</span>
+        <span>
+            Avisos
+        </span>
 
     </button>
+
 
 </nav>
 
 
 
-    <!-- ========================================== -->
-    <!-- RODAPÉ -->
-    <!-- ========================================== -->
+<script>
 
-    <footer>
+    /*
+       DADOS DOS PONTOS
+    */
 
-        <p>
-            Cadê o Intra? • Projeto acadêmico
-        </p>
+    const pontos = [
 
-        <span>
-            Universidade Federal do Ceará
-        </span>
+        {
+            nome: "Mucambinho",
+            descricao: "Ponto inicial da rota.",
+            latitude: -3.692662,
+            longitude: -40.355196
+        },
 
-    </footer>
+        {
+            nome: "Santa Casa",
+            descricao: "Ponto de parada do Intra.",
+            latitude: -3.692542,
+            longitude: -40.359015
+        },
+
+        {
+            nome: "SPA",
+            descricao: "Ponto de parada do Intra.",
+            latitude: -3.688644,
+            longitude: -40.353047
+        },
+
+        {
+            nome: "Cadeia Criativa",
+            descricao: "Ponto de parada do Intra.",
+            latitude: -3.684791,
+            longitude: -40.351818
+        },
+
+        {
+            nome: "Goiabão",
+            descricao: "Ponto de parada do Intra.",
+            latitude: -3.683724,
+            longitude: -40.342820
+        },
+
+        {
+            nome: "Receita Federal",
+            descricao: "Ponto de parada do Intra.",
+            latitude: -3.683589,
+            longitude: -40.342269
+        },
+
+        {
+            nome: "FAMED",
+            descricao: "Destino da rota.",
+            latitude: -3.682058,
+            longitude: -40.337247
+        }
+
+    ];
+
+
+    let pontoSelecionado = null;
+
+
+
+    /*
+       SELECIONAR PONTO
+    */
+
+    function selecionarPonto(indice) {
+
+        pontoSelecionado =
+            pontos[indice];
+
+
+        const ponto =
+            document.querySelectorAll(
+                ".ponto"
+            )[indice];
+
+
+        const mapa =
+            document.getElementById(
+                "mapaRota"
+            );
+
+
+        const painel =
+            document.getElementById(
+                "painelPonto"
+            );
+
+
+        document
+            .querySelectorAll(".ponto")
+            .forEach(function(elemento) {
+
+                elemento.classList.remove(
+                    "selecionado"
+                );
+
+            });
+
+
+        ponto.classList.add(
+            "selecionado"
+        );
+
+
+        document.getElementById(
+            "nomePonto"
+        ).textContent =
+            pontoSelecionado.nome;
+
+
+        document.getElementById(
+            "descricaoPonto"
+        ).textContent =
+            pontoSelecionado.descricao;
+
+
+        painel.classList.add(
+            "aberto"
+        );
+
+
+        const mapaRect =
+            mapa.getBoundingClientRect();
+
+
+        const pontoRect =
+            ponto.getBoundingClientRect();
+
+
+        const centroX =
+            pontoRect.left -
+            mapaRect.left +
+            pontoRect.width / 2;
+
+
+        const centroY =
+            pontoRect.top -
+            mapaRect.top +
+            pontoRect.height / 2;
+
+
+        const painelRect =
+            painel.getBoundingClientRect();
+
+
+        let esquerda;
+
+        let topo;
+
+
+        if (
+            centroX <
+            mapaRect.width / 2
+        ) {
+
+            painel.classList.remove(
+                "esquerda"
+            );
+
+            painel.classList.add(
+                "direita"
+            );
+
+
+            esquerda =
+                centroX + 35;
+
+        } else {
+
+            painel.classList.remove(
+                "direita"
+            );
+
+            painel.classList.add(
+                "esquerda"
+            );
+
+
+            esquerda =
+                centroX -
+                painelRect.width -
+                35;
+
+        }
+
+
+        topo =
+            centroY -
+            painelRect.height / 2;
+
+
+        const margem = 10;
+
+
+        if (
+            esquerda < margem
+        ) {
+
+            esquerda = margem;
+
+        }
+
+
+        if (
+            esquerda +
+            painelRect.width >
+            mapaRect.width -
+            margem
+        ) {
+
+            esquerda =
+                mapaRect.width -
+                painelRect.width -
+                margem;
+
+        }
+
+
+        if (
+            topo < margem
+        ) {
+
+            topo = margem;
+
+        }
+
+
+        if (
+            topo +
+            painelRect.height >
+            mapaRect.height -
+            margem
+        ) {
+
+            topo =
+                mapaRect.height -
+                painelRect.height -
+                margem;
+
+        }
+
+
+        painel.style.left =
+            esquerda + "px";
+
+
+        painel.style.top =
+            topo + "px";
+
+    }
+
+
+
+    /*
+       FECHAR PAINEL
+    */
+
+    function fecharPainel() {
+
+        document
+            .getElementById(
+                "painelPonto"
+            )
+            .classList.remove(
+                "aberto"
+            );
+
+
+        document
+            .querySelectorAll(".ponto")
+            .forEach(function(elemento) {
+
+                elemento.classList.remove(
+                    "selecionado"
+                );
+
+            });
+
+
+        pontoSelecionado = null;
+
+    }
+
+
+
+    /*
+     VER NO MAPA
+    */
+
+    function verNoMapa() {
+
+        if (!pontoSelecionado) {
+            return;
+        }
+
+
+        window.location.href =
+            "/?lat=" +
+            pontoSelecionado.latitude +
+            "&lng=" +
+            pontoSelecionado.longitude +
+            "&ponto=" +
+            encodeURIComponent(
+                pontoSelecionado.nome
+            );
+
+    }
+
+
+
+    /*
+       RECALCULAR PAINEL AO REDIMENSIONAR
+    */
+
+    window.addEventListener(
+        "resize",
+        function() {
+
+            if (
+                pontoSelecionado !== null
+            ) {
+
+                selecionarPonto(
+                    pontos.indexOf(
+                        pontoSelecionado
+                    )
+                );
+
+            }
+
+        }
+    );
+
+</script>
 
 
 </body>
