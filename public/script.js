@@ -141,7 +141,10 @@ let marcadorOnibus = null;
 // SOCKET.IO
 // ==========================================
 
-const socket = io();
+const socket = io({
+    path: '/api/socket-io/socket.io',
+    transports: ['websocket']
+});
 
 
 // ==========================================

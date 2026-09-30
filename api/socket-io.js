@@ -4,6 +4,7 @@ const { Server } = require('socket.io');
 const servidor = http.createServer();
 
 const io = new Server(servidor, {
+    path: '/api/socket-io/socket.io',
     cors: {
         origin: '*'
     }
@@ -11,6 +12,8 @@ const io = new Server(servidor, {
 
 io.on('connection', (socket) => {
     console.log('Usuário conectado:', socket.id);
+
+    console.log('Conexão Socket.IO estabelecida.');
 
     socket.emit('teste-resposta', {
         mensagem: 'Socket.IO funcionando no Vercel!'
