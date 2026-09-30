@@ -141,10 +141,7 @@ let marcadorOnibus = null;
 // SOCKET.IO
 // ==========================================
 
-const socket = io({
-    path: '/api/socket-io/socket.io',
-    transports: ['websocket']
-});
+const socket = io();
 
 socket.on('connect', function() {
     console.log('✅ SOCKET.IO CONECTADO:', socket.id);
