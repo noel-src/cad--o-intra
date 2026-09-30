@@ -142,8 +142,20 @@ let marcadorOnibus = null;
 // ==========================================
 
 const socket = io({
-    path: '/api/socket-io',
+    path: '/api/socket-io/socket.io',
     transports: ['websocket']
+});
+
+socket.on('connect', function() {
+    console.log('✅ SOCKET.IO CONECTADO:', socket.id);
+});
+
+socket.on('connect_error', function(erro) {
+    console.error('❌ ERRO SOCKET.IO:', erro.message);
+});
+
+socket.on('disconnect', function(motivo) {
+    console.log('🔴 SOCKET.IO DESCONECTADO:', motivo);
 });
 
 
