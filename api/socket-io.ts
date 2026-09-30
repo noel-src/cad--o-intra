@@ -1,14 +1,9 @@
-const http = require('http');
-const { Server } = require('socket.io');
+import http from 'http';
+import { Server } from 'socket.io';
 
-const servidor = http.createServer();
+const server = http.createServer();
 
-const io = new Server(servidor, {
-    addTrailingSlash: false,
-    cors: {
-        origin: '*'
-    }
-});
+const io = new Server(server);
 
 io.on('connection', (socket) => {
     console.log('USUÁRIO CONECTADO:', socket.id);
@@ -30,4 +25,4 @@ io.on('connection', (socket) => {
     });
 });
 
-module.exports = servidor;
+export default server;
