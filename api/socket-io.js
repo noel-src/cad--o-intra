@@ -1,17 +1,7 @@
-const express = require('express');
-const { createServer } = require('http');
+const http = require('http');
 const { Server } = require('socket.io');
 
-const app = express();
-
-app.get('/', (req, res) => {
-    res.json({
-        status: 'online',
-        mensagem: 'Backend do Cadê o Intra funcionando!'
-    });
-});
-
-const servidor = createServer(app);
+const servidor = http.createServer();
 
 const io = new Server(servidor, {
     cors: {
