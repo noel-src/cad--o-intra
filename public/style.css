@@ -51,6 +51,9 @@ body {
         0 2px 10px rgba(15, 23, 42, 0.04);
 
     overflow: hidden;
+
+    position: relative;
+    z-index: 20;
 }
 
 .logo {
