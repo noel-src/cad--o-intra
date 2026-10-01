@@ -1537,3 +1537,14 @@ footer p {
     }
 
 }
+/* ==========================================
+   AJUSTE DOS TEXTOS DO HUD DA ROTA
+========================================== */
+
+.rota-hud .hud-texto {
+    transform: translateY(3px);
+}
+
+.rota-hud .hud-paradas .hud-texto {
+    transform: translateY(3px);
+}
