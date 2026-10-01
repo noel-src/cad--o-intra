@@ -133,41 +133,33 @@
 ===================================================== */
 
 .rota-hud {
+    position: relative;
+    z-index: 5;
 
-    width: 100%;
+    width: 100vw;
+    max-width: none;
 
-    min-height: 76px;
+    margin-top: -14px;
+    margin-left: calc((100% - 100vw) / 2);
+    margin-right: 0;
+    margin-bottom: 28px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5edf5;
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+
+    padding: 13px 5%;
 
     display: flex;
     align-items: center;
-
-    margin: -14px auto 24px;
-
-    padding: 10px 14px;
-
-    box-sizing: border-box;
-
-    border: 1px solid rgba(33, 107, 152, .18);
-
-    border-radius: 18px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255,255,255,.96),
-            rgba(242,249,253,.92)
-        );
+    justify-content: space-between;
 
     box-shadow:
-        0 8px 24px rgba(24,75,110,.10),
-        0 2px 5px rgba(24,75,110,.04);
-
-    position: relative;
-    z-index: 10;
-
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-
+        0 8px 24px rgba(15, 23, 42, 0.14),
+        0 2px 6px rgba(15, 23, 42, 0.08);
 }
 
 
@@ -1061,16 +1053,17 @@
 
 
             .rota-hud {
+    width: 100vw;
 
-                min-height: 68px;
+    margin-top: -10px;
+    margin-left: calc((100% - 100vw) / 2);
+    margin-right: 0;
+    margin-bottom: 20px;
 
-                margin: -10px auto 18px;
+    padding: 11px 18px;
 
-                padding: 8px 10px;
-
-                border-radius: 16px;
-
-            }
+    border-radius: 0;
+}
 
 
             .hud-icone {
