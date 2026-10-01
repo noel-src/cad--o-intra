@@ -236,9 +236,48 @@
 .rota-hud .hud-paradas {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 12px;
 
     justify-self: end;
+
+    white-space: nowrap;
+}
+
+.rota-hud .hud-paradas .hud-texto {
+    text-align: left;
+    white-space: nowrap;
+}
+
+.rota-hud .hud-paradas strong {
+    color: #19385a;
+    font-size: 17px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.rota-hud .hud-paradas span {
+    color: #8493a3;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.rota-hud .hud-seta {
+    width: 42px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #f2f8fd;
+    border-radius: 50%;
+
+    color: #318bc9;
+    font-size: 24px;
+    line-height: 1;
 }
 
 
@@ -308,14 +347,22 @@
 
         font-size: 18px;
         border-radius: 10px;
+
+        flex-shrink: 0;
+    }
+
+    .rota-hud .hud-texto {
+        min-width: 0;
     }
 
     .rota-hud .hud-texto strong {
         font-size: 14px;
+        white-space: nowrap;
     }
 
     .rota-hud .hud-label {
         font-size: 8px;
+        white-space: nowrap;
     }
 
     .rota-hud .hud-divisor {
@@ -323,21 +370,42 @@
         margin: 0 12px;
     }
 
+    /* ======================================
+       PARADAS + SETA
+    ====================================== */
+
     .rota-hud .hud-paradas {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+
         gap: 7px;
+
+        white-space: nowrap;
+        min-width: 0;
+    }
+
+    .rota-hud .hud-paradas .hud-texto {
+        min-width: 0;
+        white-space: nowrap;
     }
 
     .rota-hud .hud-paradas strong {
         font-size: 14px;
+        white-space: nowrap;
     }
 
     .rota-hud .hud-paradas span {
         font-size: 11px;
+        white-space: nowrap;
     }
 
     .rota-hud .hud-seta {
         width: 35px;
         height: 35px;
+
+        flex-shrink: 0;
+
         font-size: 20px;
     }
 }
@@ -1515,7 +1583,7 @@
                 </div>
 
                 <div class="hud-texto">
-                    <strong>Rota do Intra</strong>
+                    <strong>Rota ilustrativa</strong>
                 </div>
 
             </div>
