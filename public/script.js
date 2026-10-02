@@ -138,21 +138,254 @@ let marcadorOnibus = null;
 
 
 // ==========================================
+// CONTROLE DA ROTA
+// ==========================================
+
+// Índice da última parada que o ônibus alcançou.
+// -1 significa que ainda não chegou em nenhuma.
+let indiceUltimaParada = -1;
+
+
+// Distância máxima para considerar que o ônibus
+// chegou a uma parada.
+const DISTANCIA_PARADA = 100;
+
+
+// ==========================================
+// ELEMENTOS DO HUD DA PÁGINA INICIAL
+// ==========================================
+
+const elementoUltimaParada =
+    document.getElementById('ultima-parada');
+
+const elementoProximaParada =
+    document.getElementById('proxima-parada');
+
+
+// ==========================================
+// FUNÇÃO DE DISTÂNCIA
+// ==========================================
+
+function calcularDistancia(
+    latitude1,
+    longitude1,
+    latitude2,
+    longitude2
+) {
+
+    const R = 6371000;
+
+    const diferencaLatitude =
+        (latitude2 - latitude1) *
+        Math.PI / 180;
+
+    const diferencaLongitude =
+        (longitude2 - longitude1) *
+        Math.PI / 180;
+
+    const latitude1Rad =
+        latitude1 *
+        Math.PI / 180;
+
+    const latitude2Rad =
+        latitude2 *
+        Math.PI / 180;
+
+
+    const a =
+        Math.sin(diferencaLatitude / 2) *
+        Math.sin(diferencaLatitude / 2) +
+
+        Math.cos(latitude1Rad) *
+        Math.cos(latitude2Rad) *
+
+        Math.sin(diferencaLongitude / 2) *
+        Math.sin(diferencaLongitude / 2);
+
+
+    const c =
+        2 *
+        Math.atan2(
+            Math.sqrt(a),
+            Math.sqrt(1 - a)
+        );
+
+
+    return R * c;
+}
+
+
+// ==========================================
+// ATUALIZAR ÚLTIMA E PRÓXIMA PARADA
+// ==========================================
+
+function atualizarParadas(
+    latitude,
+    longitude
+) {
+
+    // --------------------------------------
+    // Se não existem elementos no HUD,
+    // não faz nada.
+    // --------------------------------------
+
+    if (
+        !elementoUltimaParada ||
+        !elementoProximaParada
+    ) {
+        return;
+    }
+
+
+    // --------------------------------------
+    // Procurar a parada mais próxima
+    // --------------------------------------
+
+    let indiceMaisProximo = -1;
+
+    let menorDistancia = Infinity;
+
+
+    paradas.forEach(
+        function (parada, indice) {
+
+            const distancia =
+                calcularDistancia(
+                    latitude,
+                    longitude,
+                    parada.latitude,
+                    parada.longitude
+                );
+
+
+            if (
+                distancia < menorDistancia
+            ) {
+
+                menorDistancia =
+                    distancia;
+
+                indiceMaisProximo =
+                    indice;
+            }
+
+        }
+    );
+
+
+    if (
+        indiceMaisProximo === -1
+    ) {
+        return;
+    }
+
+
+    // --------------------------------------
+    // Verificar se chegou a uma parada
+    // --------------------------------------
+
+    if (
+        menorDistancia <= DISTANCIA_PARADA
+    ) {
+
+        /*
+         * Só avançamos na ordem da rota.
+         *
+         * Isso evita que o sistema volte
+         * para uma parada anterior só porque
+         * ela ficou mais próxima novamente.
+         */
+
+        if (
+            indiceMaisProximo >
+            indiceUltimaParada
+        ) {
+
+            indiceUltimaParada =
+                indiceMaisProximo;
+        }
+
+    }
+
+
+    // --------------------------------------
+    // ÚLTIMA PARADA
+    // --------------------------------------
+
+    if (
+        indiceUltimaParada === -1
+    ) {
+
+        elementoUltimaParada.textContent =
+            'Nenhuma ainda';
+
+    } else {
+
+        elementoUltimaParada.textContent =
+            paradas[
+                indiceUltimaParada
+            ].nome;
+    }
+
+
+    // --------------------------------------
+    // PRÓXIMA PARADA
+    // --------------------------------------
+
+    const indiceProximaParada =
+        indiceUltimaParada + 1;
+
+
+    if (
+        indiceProximaParada >=
+        paradas.length
+    ) {
+
+        elementoProximaParada.textContent =
+            'Final da rota';
+
+    } else {
+
+        elementoProximaParada.textContent =
+            paradas[
+                indiceProximaParada
+            ].nome;
+    }
+
+}
+
+
+// ==========================================
 // SOCKET.IO
 // ==========================================
 
 const socket = io();
 
 socket.on('connect', function() {
-    console.log('✅ SOCKET.IO CONECTADO:', socket.id);
+
+    console.log(
+        '✅ SOCKET.IO CONECTADO:',
+        socket.id
+    );
+
 });
 
 socket.on('connect_error', function(erro) {
-    console.error('❌ ERRO SOCKET.IO:', erro.message);
+
+    console.error(
+        '❌ ERRO SOCKET.IO:',
+        erro.message
+    );
+
 });
 
 socket.on('disconnect', function(motivo) {
-    console.log('🔴 SOCKET.IO DESCONECTADO:', motivo);
+
+    console.log(
+        '🔴 SOCKET.IO DESCONECTADO:',
+        motivo
+    );
+
 });
 
 
@@ -187,6 +420,7 @@ socket.on(
 
                 marcadorOnibus = null;
             }
+
 
             atualizarStatusOffline();
 
@@ -231,6 +465,16 @@ socket.on(
         console.log(
             'POSIÇÃO DO INTRA:',
             posicao
+        );
+
+
+        // ==================================
+        // ATUALIZAR ÚLTIMA E PRÓXIMA PARADA
+        // ==================================
+
+        atualizarParadas(
+            localizacao.latitude,
+            localizacao.longitude
         );
 
 
@@ -281,9 +525,13 @@ socket.on(
 // BOTÃO CENTRALIZAR NO ÔNIBUS
 // ==========================================
 
-document
-    .getElementById('centralizar')
-    .addEventListener(
+const botaoCentralizar =
+    document.getElementById('centralizar');
+
+
+if (botaoCentralizar) {
+
+    botaoCentralizar.addEventListener(
         'click',
         function () {
 
@@ -340,6 +588,8 @@ document
 
         }
     );
+
+}
 
 
 // ==========================================
@@ -488,6 +738,26 @@ function atualizarStatusOffline() {
 
         statusLocalizacao.textContent =
             'Offline';
+
+    }
+
+
+    // ======================================
+    // LIMPAR HUD
+    // ======================================
+
+    if (elementoUltimaParada) {
+
+        elementoUltimaParada.textContent =
+            'Aguardando localização';
+
+    }
+
+
+    if (elementoProximaParada) {
+
+        elementoProximaParada.textContent =
+            'Aguardando localização';
 
     }
 

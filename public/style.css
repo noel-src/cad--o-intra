@@ -1542,9 +1542,9 @@ footer p {
 ========================================== */
 
 .rota-hud .hud-texto {
-    transform: translateY(5px);
+    transform: translateY(8px);
 }
 
 .rota-hud .hud-paradas .hud-texto {
-    transform: translateY(5px);
+    transform: translateY(8px);
 }
