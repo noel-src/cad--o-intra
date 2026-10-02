@@ -1554,7 +1554,7 @@ footer p {
 
 .page-hud > *,
 .rota-hud > * {
-    transform: translateY(4px);
+    transform: translateY(8px);
 }
 
 
