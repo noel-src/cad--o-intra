@@ -1548,3 +1548,20 @@ footer p {
 .rota-hud .hud-paradas .hud-texto {
     transform: translateY(3px);
 }
+/* ==========================================
+   AJUSTE DOS HUDs
+========================================== */
+
+.page-hud > *,
+.rota-hud > * {
+    transform: translateY(4px);
+}
+
+
+/* ==========================================
+   ÁREA ACIMA DO HEADER
+========================================== */
+
+html {
+    background: #ffffff;
+}
