@@ -43,7 +43,7 @@ let localizacoes = {};
 // TEMPO MÁXIMO SEM ATUALIZAÇÃO
 // ==========================================
 
-const TEMPO_MAXIMO_SEM_ATUALIZACAO = 60000;
+const TEMPO_MAXIMO_SEM_ATUALIZACAO = 600000;
 
 
 // ==========================================

@@ -77,6 +77,10 @@ interface Localizacao {
 
 const localizacoes: Record<string, Localizacao> = {};
 
+// Identificador fixo do ônibus: mantém uma única localização
+// mesmo que a conexão Socket.IO do motorista seja restabelecida.
+const ID_INTRA = 'intra';
+
 
 // ==========================================
 // ESTADO DOS MOTORISTAS
@@ -93,13 +97,6 @@ interface EstadoMotorista {
 
 const estadosMotoristas =
     new Map<string, EstadoMotorista>();
-
-
-// ==========================================
-// TEMPO MÁXIMO SEM ATUALIZAÇÃO
-// ==========================================
-
-const TEMPO_MAXIMO_SEM_ATUALIZACAO = 60000;
 
 
 // ==========================================
@@ -411,9 +408,9 @@ io.on(
                 // SALVAR LOCALIZAÇÃO
                 // ==========================
 
-                localizacoes[socket.id] = {
+                localizacoes[ID_INTRA] = {
 
-                    id: socket.id,
+                    id: ID_INTRA,
 
                     latitude: latitude,
 
@@ -453,20 +450,25 @@ io.on(
             'parar-localizacao',
             () => {
 
-                if (
-                    localizacoes[socket.id]
-                ) {
+                const estado =
+                    estadosMotoristas.get(socket.id);
+
+                if (!estado || estado.autorizado !== true) {
+                    console.log(
+                        'Tentativa não autorizada de parar a localização:',
+                        socket.id
+                    );
+                    return;
+                }
+
+                if (localizacoes[ID_INTRA]) {
 
                     console.log(
                         'Compartilhamento encerrado:',
                         socket.id
                     );
 
-
-                    delete localizacoes[
-                        socket.id
-                    ];
-
+                    delete localizacoes[ID_INTRA];
 
                     io.emit(
                         'localizacoes-intra',
@@ -493,21 +495,9 @@ io.on(
                 );
 
 
-                if (
-                    localizacoes[socket.id]
-                ) {
-
-                    delete localizacoes[
-                        socket.id
-                    ];
-
-
-                    io.emit(
-                        'localizacoes-intra',
-                        Object.values(localizacoes)
-                    );
-
-                }
+                // Não remover a última localização na desconexão.
+                // Ela só é apagada quando o motorista envia
+                // o evento 'parar-localizacao'.
 
 
                 estadosMotoristas.delete(
@@ -518,75 +508,6 @@ io.on(
         );
 
     }
-);
-
-
-// ==========================================
-// REMOVER LOCALIZAÇÕES ANTIGAS
-// ==========================================
-
-setInterval(
-    () => {
-
-        const agora =
-            Date.now();
-
-        let houveAlteracao =
-            false;
-
-
-        Object.keys(
-            localizacoes
-        ).forEach(
-            (id) => {
-
-                const localizacao =
-                    localizacoes[id];
-
-
-                const tempoSemAtualizacao =
-                    agora -
-                    localizacao.horario;
-
-
-                if (
-                    tempoSemAtualizacao >
-                    TEMPO_MAXIMO_SEM_ATUALIZACAO
-                ) {
-
-                    console.log(
-                        'Localização expirada:',
-                        id
-                    );
-
-
-                    delete localizacoes[
-                        id
-                    ];
-
-
-                    houveAlteracao =
-                        true;
-
-                }
-
-            }
-        );
-
-
-        if (
-            houveAlteracao
-        ) {
-
-            io.emit(
-                'localizacoes-intra',
-                Object.values(localizacoes)
-            );
-
-        }
-
-    },
-    5000
 );
 
 
